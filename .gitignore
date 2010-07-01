@@ -1,0 +1,9 @@
+bin
+obj
+*.user
+_ReSharper.*
+*.suo
+/Src/.gitignore
+*.testsettings
+*.vsmdi
+*.trx
