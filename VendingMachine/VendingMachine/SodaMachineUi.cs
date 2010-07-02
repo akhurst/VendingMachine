@@ -7,12 +7,17 @@ namespace VendingMachine
 {
     public class SodaMachineUi
     {
-        private Stack<IController> controllers;
+        private readonly Stack<IController> controllers;
 
-        public SodaMachineUi()
+        private SodaMachine machine;
+
+        public SodaMachineUi():this(new SodaMachine(10)){}
+
+        public SodaMachineUi(SodaMachine machine)
         {
+            this.machine = machine;
             this.controllers = new Stack<IController>();
-            this.controllers.Push(new MainMenu());
+            this.controllers.Push(new MainMenu(machine));
             this.IsActive = true;
         }
 

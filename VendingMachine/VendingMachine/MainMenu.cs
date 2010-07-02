@@ -5,21 +5,16 @@ using System.Text;
 
 namespace VendingMachine
 {
-    public class MainMenu : IController
+    public class MainMenu : BaseMenu
     {
-        public const string MainMenuFormat = "Main Menu\n1: Stock Items\nQ: Quit";
+        public const string MainMenuFormat = "Main Menu\n1: Admin Menu\nQ: Quit";
 
-        public MainMenu()
+        public MainMenu(SodaMachine machine) : base(machine)
         {
-            this.IsActive = true;
+            CommandsToHandlers.Add("1", NavigateToAdminMenu);
         }
 
-        public bool IsActive
-        {
-            get; private set;
-        }
-
-        public string DisplayPrompt
+        public override string DisplayPrompt
         {
             get
             {
@@ -27,29 +22,9 @@ namespace VendingMachine
             }
         }
 
-        public ActionResult PerformAction(string userInput)
+        private ActionResult NavigateToAdminMenu(string argument)
         {
-            switch (userInput)
-            {
-                case "1":
-                    return NavigateToStockMenu();
-                case "q":
-                case "Q":
-                    return Quit();
-            }
-
-            return new ActionResult(CommonMessages.InvalidOptionMessage);
-        }
-
-        private ActionResult NavigateToStockMenu()
-        {
-            return new ActionResult(new StockMenu());
-        }
-
-        private ActionResult Quit()
-        {
-            this.IsActive = false;
-            return new ActionResult();
+            return new ActionResult(new AdminMenu(Machine));
         }
     }
 }

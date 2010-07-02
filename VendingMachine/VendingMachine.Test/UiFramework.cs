@@ -40,7 +40,7 @@ namespace VendingMachine.Test
         public void ShouldDisplaySubMenu()
         {
             ui.PerformAction("1");
-            string expectedPrompt = string.Format(StockMenu.StockMenuFormat);
+            string expectedPrompt = string.Format(AdminMenu.MenuFormatString);
             Assert.AreEqual(expectedPrompt, ui.DisplayPrompt);
         }
 
