@@ -45,6 +45,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdjustingQuantity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UiFramework.cs" />
     <Compile Include="NamingItems.cs" />

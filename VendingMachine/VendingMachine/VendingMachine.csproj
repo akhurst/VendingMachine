@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionResult.cs" />
+    <Compile Include="AdjustQuantityMenu.cs" />
     <Compile Include="AdminMenu.cs" />
     <Compile Include="BaseMenu.cs" />
     <Compile Include="CommonMessages.cs" />

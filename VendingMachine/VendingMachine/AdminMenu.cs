@@ -12,6 +12,12 @@ namespace VendingMachine
         public AdminMenu(SodaMachine machine) : base(machine)
         {
             CommandsToHandlers.Add("1",NavigateToNameItems);
+            CommandsToHandlers.Add("2",NavigateToAdjustQuantity);
+        }
+
+        private ActionResult NavigateToAdjustQuantity(string arg)
+        {
+            return new ActionResult(new AdjustQuantityMenu(Machine));
         }
 
         private ActionResult NavigateToNameItems(string arg)

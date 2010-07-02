@@ -34,8 +34,13 @@ namespace VendingMachine
             if (string.IsNullOrEmpty(userInput))
                 return new ActionResult(CommonMessages.InvalidOptionMessage);
 
-            string action = userInput.Split()[0].Trim();
-            string argument = userInput.Replace(action, "").Trim();
+            string[] userInputSplit = userInput.Split();
+
+            if(userInputSplit.Length == 0)
+                return new ActionResult(CommonMessages.InvalidOptionMessage);
+
+            string action = userInputSplit[0].Trim();
+            string argument = userInput.Substring(userInput.IndexOf(action) + action.Length).Trim();
 
             switch (action)
             {

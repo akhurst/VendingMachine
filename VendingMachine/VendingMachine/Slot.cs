@@ -8,11 +8,6 @@ namespace VendingMachine
     public class Slot
     {
         public string ProductName { get; set; }
-        public int Quantity { get; private set; }
-
-        public void AddItems(int numItems)
-        {
-            Quantity += numItems;
-        }
+        public int Quantity { get; set; }
     }
 }
