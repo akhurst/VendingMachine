@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VendingMachine.Menu.SodaMenu;
 
 namespace VendingMachine.Test
 {
@@ -17,8 +18,8 @@ namespace VendingMachine.Test
         {
             machine = new SodaMachine(10);
             ui = new SodaMachineUi(machine);
-            ui.PerformAction(MainMenu.Commands.AdminMenu);
-            ui.PerformAction(AdminMenu.Commands.AdjustQuantity);
+            ui.PerformAction(MainMenu.Commands.AdminMenu.Commands[0]);
+            ui.PerformAction(AdminMenu.Commands.AdjustQuantity.Commands[0]);
         }
 
         [TestMethod]

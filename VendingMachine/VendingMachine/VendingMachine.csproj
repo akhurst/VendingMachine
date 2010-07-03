@@ -43,22 +43,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdjustQuantityMenu.cs" />
-    <Compile Include="AdminMenu.cs" />
-    <Compile Include="BaseMenu.cs" />
-    <Compile Include="CommonMessages.cs" />
+    <Compile Include="Menu\ActionCommand.cs" />
+    <Compile Include="Menu\SodaMenu\AdjustQuantityMenu.cs" />
+    <Compile Include="Menu\SodaMenu\AdminMenu.cs" />
+    <Compile Include="Menu\BaseMenu.cs" />
     <Compile Include="Controller\NavigationController.cs" />
     <Compile Include="Controller\ViewController.cs" />
+    <Compile Include="DisplayResult\InvalidInputResult.cs" />
     <Compile Include="DisplayResult\EmptyResult.cs" />
     <Compile Include="DisplayResult\TextResult.cs" />
-    <Compile Include="IConsoleMenu.cs" />
-    <Compile Include="MainMenu.cs" />
+    <Compile Include="Menu\IConsoleMenu.cs" />
+    <Compile Include="Menu\SodaMenu\MainMenu.cs" />
+    <Compile Include="Menu\ActionCommandFactory.cs" />
     <Compile Include="SodaMachine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Slot.cs" />
     <Compile Include="SodaMachineUi.cs" />
-    <Compile Include="NameItemMenu.cs" />
+    <Compile Include="Menu\SodaMenu\NameItemMenu.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

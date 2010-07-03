@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using VendingMachine.DisplayResult;
 
-namespace VendingMachine
+namespace VendingMachine.Menu
 {
     public interface IConsoleMenu
     {

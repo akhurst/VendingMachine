@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using VendingMachine.Controller;
 using VendingMachine.DisplayResult;
+using VendingMachine.Menu;
+using VendingMachine.Menu.SodaMenu;
 
 namespace VendingMachine
 {

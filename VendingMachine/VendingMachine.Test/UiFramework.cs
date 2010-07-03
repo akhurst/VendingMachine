@@ -3,6 +3,8 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VendingMachine.Menu.SodaMenu;
+using VendingMachine.DisplayResult;
 
 namespace VendingMachine.Test
 {
@@ -20,23 +22,23 @@ namespace VendingMachine.Test
         [TestMethod]
         public void ShouldStartWithMainMenu()
         {
-            AssertIsAtMainMenu();
+            Assert.IsInstanceOfType(ui.TopViewController, typeof(MainMenu));
         }
 
         [TestMethod]
         public void ShouldDisplaySubMenu()
         {
-            ui.PerformAction(MainMenu.Commands.AdminMenu);
-            string expectedPrompt = string.Format(AdminMenu.MenuFormatString);
-            Assert.AreEqual(expectedPrompt, ui.DisplayPrompt);
+            ui.PerformAction(MainMenu.Commands.AdminMenu.Commands[0]);
+            Assert.IsInstanceOfType(ui.TopViewController, typeof(AdminMenu));
         }
 
         [TestMethod]
         public void ShouldGoBackToMainMenuAfterQuittingSubMenu()
         {
-            ui.PerformAction(MainMenu.Commands.AdminMenu);
-            ui.PerformAction("Q");
-            AssertIsAtMainMenu();
+            ui.PerformAction(MainMenu.Commands.AdminMenu.Commands[0]);
+            ui.PerformAction(AdminMenu.Commands.QuitToMenu.Commands[0]);
+
+            Assert.IsInstanceOfType(ui.TopViewController, typeof(MainMenu));
         }
 
         [TestMethod]
@@ -48,20 +50,14 @@ namespace VendingMachine.Test
         [TestMethod]
         public void ShouldGetFeedbackWhenEnteringAnInvalidOptionOnSubMenu()
         {
-            ui.PerformAction(MainMenu.Commands.AdminMenu);
+            ui.PerformAction(MainMenu.Commands.AdminMenu.Commands[0]);
             AssertGotInvalidOptionFeedback();
         }
 
         private void AssertGotInvalidOptionFeedback()
         {
-            string result = ui.PerformAction("junk").ToString();
-            Assert.AreEqual(CommonMessages.InvalidOptionMessage, result);
-        }
-
-        private void AssertIsAtMainMenu()
-        {
-            string expectedPrompt = string.Format(MainMenu.MainMenuFormat);
-            Assert.AreEqual(expectedPrompt, ui.DisplayPrompt);
+            TextResult result = ui.PerformAction("junk");
+            Assert.IsInstanceOfType(result, typeof(InvalidInputResult));
         }
     }
 }

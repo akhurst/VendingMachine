@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VendingMachine.Menu.SodaMenu;
 
 namespace VendingMachine.Test
 {
@@ -17,14 +18,14 @@ namespace VendingMachine.Test
         {
             machine = new SodaMachine(10);
             ui = new SodaMachineUi(machine);
-            ui.PerformAction(MainMenu.Commands.AdminMenu);
+            ui.PerformAction(MainMenu.Commands.AdminMenu.Commands[0]);
         }
 
         [TestMethod]
         public void ShouldRenderViewInventory()
         {
             machine.Slots[2].ProductName = "Dr. Pepper";
-            string result = ui.PerformAction(AdminMenu.Commands.ViewInventory).ToString();
+            string result = ui.PerformAction(AdminMenu.Commands.ViewInventory.Commands[0]).ToString();
             Assert.IsTrue(result.Contains("Dr. Pepper"));
         }
     }
