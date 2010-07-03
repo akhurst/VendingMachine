@@ -39,7 +39,7 @@ namespace VendingMachine.Test
         [TestMethod]
         public void ShouldDisplaySubMenu()
         {
-            ui.PerformAction("1");
+            ui.PerformAction(MainMenu.Commands.AdminMenu);
             string expectedPrompt = string.Format(AdminMenu.MenuFormatString);
             Assert.AreEqual(expectedPrompt, ui.DisplayPrompt);
         }
@@ -47,7 +47,7 @@ namespace VendingMachine.Test
         [TestMethod]
         public void ShouldGoBackToMainMenuAfterQuittingSubMenu()
         {
-            ui.PerformAction("1");
+            ui.PerformAction(MainMenu.Commands.AdminMenu);
             ui.PerformAction("Q");
             AssertIsAtMainMenu();
         }
@@ -61,7 +61,7 @@ namespace VendingMachine.Test
         [TestMethod]
         public void ShouldGetFeedbackWhenEnteringAnInvalidOptionOnSubMenu()
         {
-            ui.PerformAction("1");
+            ui.PerformAction(MainMenu.Commands.AdminMenu);
             AssertGotInvalidOptionFeedback();
         }
 

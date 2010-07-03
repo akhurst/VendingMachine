@@ -17,8 +17,8 @@ namespace VendingMachine.Test
         {
             machine = new SodaMachine(10);
             ui = new SodaMachineUi(machine);
-            ui.PerformAction("1");
-            ui.PerformAction("1");
+            ui.PerformAction(MainMenu.Commands.AdminMenu);
+            ui.PerformAction(AdminMenu.Commands.NameItems);
         }
 
         [TestMethod]

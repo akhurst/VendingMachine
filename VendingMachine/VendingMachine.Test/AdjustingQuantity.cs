@@ -17,25 +17,38 @@ namespace VendingMachine.Test
         {
             machine = new SodaMachine(10);
             ui = new SodaMachineUi(machine);
-            ui.PerformAction("1");
-            ui.PerformAction("2");
+            ui.PerformAction(MainMenu.Commands.AdminMenu);
+            ui.PerformAction(AdminMenu.Commands.AdjustQuantity);
         }
 
         [TestMethod]
         public void ShouldLoadAdjustQuantityMenu()
         {
-            string expectedMenu = string.Format(AdjustQuantityMenu.MenuFormatString);
+            string expectedMenu = string.Format(AdjustQuantityMenu.MenuFormatString,Slot.MaximumQuantity);
             Assert.AreEqual(expectedMenu,ui.DisplayPrompt);
+        }
+
+        [TestMethod]
+        public void ShouldStartWithZeroItems()
+        {
+            foreach (var slot in machine.Slots)
+            {
+                Assert.AreEqual(0,slot.Quantity);
+            }
         }
 
         [TestMethod]
         public void ShouldBeAbleToAddItems()
         {
-            int previousQuantity = machine.Slots[0].Quantity;
             ui.PerformAction("1 1");
-            int postQuantity = machine.Slots[0].Quantity;
-            Assert.AreEqual(0, previousQuantity);
-            Assert.AreEqual(1, postQuantity);
+            Assert.AreEqual(1, machine.Slots[0].Quantity);
+        }
+
+        [TestMethod]
+        public void ShouldNotBeAbleToAddMoreThanTwentyItems()
+        {
+            string result = ui.PerformAction("3 21");
+            Assert.AreEqual(0,machine.Slots[2].Quantity);
         }
     }
 }
