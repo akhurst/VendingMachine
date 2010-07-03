@@ -47,7 +47,8 @@ namespace VendingMachine.Test
         [TestMethod]
         public void ShouldNotBeAbleToAddMoreThanTwentyItems()
         {
-            string result = ui.PerformAction("3 21");
+            ui.PerformAction("3 21");
+
             Assert.AreEqual(0,machine.Slots[2].Quantity);
         }
     }

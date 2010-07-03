@@ -24,7 +24,7 @@ namespace VendingMachine.Test
         public void ShouldRenderViewInventory()
         {
             machine.Slots[2].ProductName = "Dr. Pepper";
-            string result = ui.PerformAction(AdminMenu.Commands.ViewInventory);
+            string result = ui.PerformAction(AdminMenu.Commands.ViewInventory).ToString();
             Assert.IsTrue(result.Contains("Dr. Pepper"));
         }
     }

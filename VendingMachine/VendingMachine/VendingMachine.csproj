@@ -43,12 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionResult.cs" />
     <Compile Include="AdjustQuantityMenu.cs" />
     <Compile Include="AdminMenu.cs" />
     <Compile Include="BaseMenu.cs" />
     <Compile Include="CommonMessages.cs" />
-    <Compile Include="IController.cs" />
+    <Compile Include="Controller\NavigationController.cs" />
+    <Compile Include="Controller\ViewController.cs" />
+    <Compile Include="DisplayResult\EmptyResult.cs" />
+    <Compile Include="DisplayResult\TextResult.cs" />
+    <Compile Include="IConsoleMenu.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="SodaMachine.cs" />
     <Compile Include="Program.cs" />
@@ -57,6 +60,7 @@
     <Compile Include="SodaMachineUi.cs" />
     <Compile Include="NameItemMenu.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

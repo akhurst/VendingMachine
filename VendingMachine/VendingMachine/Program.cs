@@ -9,12 +9,13 @@ namespace VendingMachine
     {
         static void Main(string[] args)
         {
-            SodaMachineUi ui = new SodaMachineUi();
+            IConsoleMenu ui = new SodaMachineUi();
 
-            while (ui.IsActive)
+            while (true)
             {
                 Console.WriteLine(ui.DisplayPrompt);
                 Console.WriteLine(ui.PerformAction(Console.ReadLine()));
+                Console.WriteLine("---------------------------------------------------------");
             }
         }
     }

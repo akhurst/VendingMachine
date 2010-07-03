@@ -24,19 +24,6 @@ namespace VendingMachine.Test
         }
 
         [TestMethod]
-        public void ShouldBeActiveWhenStarted()
-        {
-            Assert.IsTrue(ui.IsActive);
-        }
-
-        [TestMethod]
-        public void ShouldBeInactiveAfterQuit()
-        {
-            ui.PerformAction("Q");
-            Assert.IsFalse(ui.IsActive);
-        }
-
-        [TestMethod]
         public void ShouldDisplaySubMenu()
         {
             ui.PerformAction(MainMenu.Commands.AdminMenu);
@@ -67,7 +54,7 @@ namespace VendingMachine.Test
 
         private void AssertGotInvalidOptionFeedback()
         {
-            string result = ui.PerformAction("junk");
+            string result = ui.PerformAction("junk").ToString();
             Assert.AreEqual(CommonMessages.InvalidOptionMessage, result);
         }
 

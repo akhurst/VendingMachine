@@ -1,74 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
+using VendingMachine.Controller;
+using VendingMachine.DisplayResult;
 
 namespace VendingMachine
 {
-    public abstract class BaseMenu : IController
+    public abstract class BaseMenu : ViewController, IConsoleMenu
     {
-        private readonly IDictionary<string, Func<string, ActionResult>> commandsToHandlers =
-            new Dictionary<string, Func<string, ActionResult>>();
+        private readonly IDictionary<string, Func<string, TextResult>> commandsToHandlers =
+            new Dictionary<string, Func<string, TextResult>>();
 
         private readonly SodaMachine machine;
 
-        protected BaseMenu(SodaMachine machine)
-        {
-            this.machine = machine;
-            IsActive = true;
-        }
+        public abstract string DisplayPrompt { get; }
 
-        protected IDictionary<string, Func<string, ActionResult>> CommandsToHandlers
+        protected IDictionary<string, Func<string, TextResult>> CommandsToHandlers
         {
             get { return commandsToHandlers; }
         }
 
-        public abstract string DisplayPrompt { get; }
-        public bool IsActive { get; protected set; }
+        protected BaseMenu(SodaMachine machine)
+        {
+            this.machine = machine;
+        }
 
         protected SodaMachine Machine
         {
             get { return machine; }
         }
 
-        public virtual ActionResult PerformAction(string userInput)
+        public virtual TextResult PerformAction(string userInput)
         {
             if (string.IsNullOrEmpty(userInput))
-                return new ActionResult(CommonMessages.InvalidOptionMessage);
+                return InvalidInput();
 
             string[] userInputSplit = userInput.Split();
 
-            if(userInputSplit.Length == 0)
-                return new ActionResult(CommonMessages.InvalidOptionMessage);
+            if (userInputSplit.Length == 0)
+                return InvalidInput();
 
-            string action = userInputSplit[0].Trim();
-            string argument = userInput.Substring(userInput.IndexOf(action) + action.Length).Trim();
-
-            switch (action)
-            {
-                case "q":
-                case "Q":
-                    return Quit();
-                default:
-                    return PerformMenuAction(action, argument);
-            }
-        }
-
-        protected virtual ActionResult InvalidInput()
-        {
-            return new ActionResult(CommonMessages.InvalidOptionMessage);
-        }
-
-        protected virtual ActionResult PerformMenuAction(string action, string argument)
-        {
+            string action = ParseAction(userInput);
+            string argument = ParseArgument(userInput);
             if (!CommandsToHandlers.ContainsKey(action))
                 return InvalidInput();
 
             return CommandsToHandlers[action](argument);
         }
 
-        protected virtual ActionResult Quit()
+        private TextResult InvalidInput()
         {
-            IsActive = false;
-            return new ActionResult();
+            return new TextResult(CommonMessages.InvalidOptionMessage);
+        }
+
+        public string ParseAction(string userInput)
+        {
+            string[] userInputSplit = userInput.Split();
+            if (userInputSplit.Length < 1) return string.Empty;
+            return userInputSplit[0].Trim();
+        }
+        public string ParseArgument(string userInput)
+        {
+            string action = ParseAction(userInput);
+            if (string.IsNullOrEmpty(action)) return string.Empty;
+
+            return userInput.Substring(userInput.IndexOf(action) + action.Length).Trim();
         }
     }
 }

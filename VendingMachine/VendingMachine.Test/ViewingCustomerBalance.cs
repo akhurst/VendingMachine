@@ -15,7 +15,7 @@ namespace VendingMachine.Test
             SodaMachine machine = new SodaMachine(10);
             SodaMachineUi machineUi = new SodaMachineUi(machine);
             machine.AddMoney(2.25);
-            string result = machineUi.PerformAction(MainMenu.Commands.PrintCustomerBalance);
+            string result = machineUi.PerformAction(MainMenu.Commands.PrintCustomerBalance).ToString();
             Assert.IsTrue(result.Contains("2.25"), string.Format("Result should contain 2.25, actual result was {0}",result));
         }
     }

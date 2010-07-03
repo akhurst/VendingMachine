@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using VendingMachine.DisplayResult;
 
 namespace VendingMachine
 {
@@ -19,23 +20,31 @@ namespace VendingMachine
             get { return MenuFormatString; }
         }
 
-        protected override ActionResult PerformMenuAction(string action, string argument)
+        public override TextResult PerformAction(string userInput)
         {
+            string action = ParseAction(userInput);
+            string argument = ParseArgument(userInput);
+
+            if (action.Equals('q') || action.Equals('Q'))
+            {
+                NavigationController.PopToRootViewController();
+                return new EmptyResult();
+            }
+
             int slotNumber;
 
             if(!int.TryParse(action, out slotNumber))
-                return new ActionResult(InvalidSlotString);
+                return new TextResult(InvalidSlotString);
 
             if(slotNumber < 1 || slotNumber > 10)
-                return new ActionResult(InvalidSlotString);
+                return new TextResult(InvalidSlotString);
 
             if(string.IsNullOrEmpty(argument))
-                return new ActionResult(InvalidNameString);
+                return new TextResult(InvalidNameString);
 
             Machine.Slots[slotNumber - 1].ProductName = argument;            
-            this.IsActive = false;
 
-            return new ActionResult(string.Format("Slot {0}'s new name is {1}",action,argument));
+            return new TextResult(string.Format("Slot {0}'s new name is {1}",action,argument));
         }
     }
 }

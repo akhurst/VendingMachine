@@ -1,9 +1,8 @@
-bin
-obj
+bin/
+obj/
 *.user
 _ReSharper.*
 *.suo
 /Src/.gitignore
-*.testsettings
-*.vsmdi
 *.trx
+TestResults/

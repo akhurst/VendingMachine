@@ -32,7 +32,7 @@ namespace VendingMachine.Test
         public void ShouldHandleJunkItemNumber()
         {
             RecordCurrentNames();
-            string result = ui.PerformAction("blah");
+            string result = ui.PerformAction("blah").ToString();
             Assert.AreEqual(NameItemMenu.InvalidSlotString,result);
             Assert.AreEqual(string.Format(NameItemMenu.MenuFormatString),ui.DisplayPrompt);
             AssertNoNamesHaveChanged();
