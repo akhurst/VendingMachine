@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VendingMachine.Menu.SodaMenu;
+using VendingMachine.DisplayResult;
 
 namespace VendingMachine.Test
 {
@@ -18,14 +19,13 @@ namespace VendingMachine.Test
         {
             machine = new SodaMachine(10);
             ui = new SodaMachineUi(machine);
-            ui.PerformAction(MainMenu.Commands.AdminMenu.Commands[0]);
-            ui.PerformAction(AdminMenu.Commands.NameItems.Commands[0]);
+            ui.PerformAction(MainMenu.Commands.StockerMenu.Command);
         }
 
         [TestMethod]
         public void ShouldBeAbleToNameAnItem()
         {
-            ui.PerformAction("1 Coca Cola");
+            ui.PerformAction(StockerMenu.Commands.NameItems.Command + " 1 Coca Cola");
             Assert.AreEqual("Coca Cola",machine.Slots[0].ProductName);
         }
 
@@ -33,9 +33,8 @@ namespace VendingMachine.Test
         public void ShouldHandleJunkItemNumber()
         {
             RecordCurrentNames();
-            string result = ui.PerformAction("blah").ToString();
-            Assert.AreEqual(NameItemMenu.InvalidSlotString,result);
-            Assert.AreEqual(string.Format(NameItemMenu.MenuFormatString),ui.DisplayPrompt);
+            TextResult result = ui.PerformAction(StockerMenu.Commands.NameItems.Command + " blah");
+            Assert.IsInstanceOfType(result, typeof(InvalidInputResult));
             AssertNoNamesHaveChanged();
         }
 

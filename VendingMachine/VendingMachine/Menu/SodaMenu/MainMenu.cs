@@ -10,9 +10,9 @@ namespace VendingMachine.Menu.SodaMenu
     {
         public MainMenu(SodaMachine machine) : base(machine, "Main Menu")
         {
-            ActionCommandHandlers.Add(Commands.AdminMenu, NavigateToAdminMenu);
+            ActionCommandHandlers.Add(Commands.StockerMenu, NavigateToAdminMenu);
             ActionCommandHandlers.Add(Commands.AddMoney, HandleAddMoney);
-            ActionCommandHandlers.Add(Commands.PrintCustomerBalance, PrintCustomerBalance);
+            ActionCommandHandlers.Add(Commands.PrintCustomerBalance, HandlePrintCustomerBalance);
             ActionCommandHandlers.Add(Commands.Quit, Quit);
         }
 
@@ -22,7 +22,7 @@ namespace VendingMachine.Menu.SodaMenu
             return new EmptyResult();
         }
 
-        private TextResult PrintCustomerBalance(string arg)
+        private TextResult HandlePrintCustomerBalance(string arg)
         {
             return new TextResult(string.Format("Customer Balance: {0:c}",Machine.CustomerBalance));
         }
@@ -42,26 +42,27 @@ namespace VendingMachine.Menu.SodaMenu
 
         private TextResult NavigateToAdminMenu(string argument)
         {
-            NavigationController.PushViewController(new AdminMenu(Machine));
+            NavigationController.PushViewController(new StockerMenu(Machine));
             return new EmptyResult();
         }
 
         public static class Commands
         {
 
-            public static readonly ActionCommand AdminMenu = new ActionCommand("1")
+            public static readonly ActionCommand StockerMenu = new ActionCommand("sto")
             {
-                CommandDescription = "Admin Menu"
+                CommandDescription = "Stocker Menu"
             };
 
-            public static readonly ActionCommand AddMoney = new ActionCommand("2")
+            public static readonly ActionCommand AddMoney = new ActionCommand("add")
             {
-                CommandDescription = "Add Money"
+                CommandDescription = "Add Money",
+                ArgumentDescription = "<money amount>"
             };
 
-            public static readonly ActionCommand PrintCustomerBalance = new ActionCommand("3")
+            public static readonly ActionCommand PrintCustomerBalance = new ActionCommand("bal")
             {
-                CommandDescription = "Print Customer Balance"
+                CommandDescription = "Check Customer Balance"
             };
 
             public static readonly ActionCommand Quit = ActionCommandFactory.CreateQuitCommand();

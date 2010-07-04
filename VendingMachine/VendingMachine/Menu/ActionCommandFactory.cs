@@ -9,13 +9,13 @@ namespace VendingMachine.Menu
     {
         public static ActionCommand CreateQuitCommand()
         {
-            return new ActionCommand("q", "Q") 
+            return new ActionCommand("q") 
             { CommandDescription = "Quit Program." };
         }
 
         public static ActionCommand CreateQuitToMenuCommand()
         {
-            return new ActionCommand("q", "Q") 
+            return new ActionCommand("q") 
             { CommandDescription = "Quit to Main Menu." };
         }
     }

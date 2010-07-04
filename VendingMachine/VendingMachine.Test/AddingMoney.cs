@@ -40,7 +40,7 @@ namespace VendingMachine.Test
         [TestMethod]
         public void ShouldIgnoreNoAmount()
         {
-            ui.PerformAction(MainMenu.Commands.AddMoney.Commands[0]);
+            ui.PerformAction(MainMenu.Commands.AddMoney.Command);
 
             AssertIsAtMainMenu();
             Assert.AreEqual(0, machine.CustomerBalance);

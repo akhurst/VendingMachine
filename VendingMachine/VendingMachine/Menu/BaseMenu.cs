@@ -30,10 +30,10 @@ namespace VendingMachine.Menu
         }
 
         public string FormatActionCommand(ActionCommand actionCommand) {
-            string formattedActionCommand = string.Format("{0}\t{1}", actionCommand.Commands[0], actionCommand.CommandDescription);
+            string formattedActionCommand = string.Format("{0}:\t{1}", actionCommand.Command, actionCommand.CommandDescription);
             if (!string.IsNullOrEmpty(actionCommand.ArgumentDescription))
             {
-                formattedActionCommand += string.Format("\r\n\t{0}", actionCommand.ArgumentDescription);
+                formattedActionCommand += string.Format("\r\n\t\t{0}", actionCommand.ArgumentDescription);
             }
             return formattedActionCommand;
         }
@@ -69,33 +69,26 @@ namespace VendingMachine.Menu
             if (userInputSplit.Length == 0)
                 return new InvalidInputResult();
 
-            string command = ParseCommand(userInput);
-            string argument = ParseArgument(userInput);
+            string inputCommand = GetFirstArgumentToken(userInput);
+            string inputArgument = GetArgumentStringAfterFirstArgumentToken(userInput);
 
-            ActionCommand selectedActionCommand = null;
-            foreach (ActionCommand actionCommand in actionCommandHandlers.Keys)
-            {
-                if (actionCommand.Commands.Contains(command))
-                {
-                    selectedActionCommand = actionCommand;
-                    break;
-                }
-            }
+            ActionCommand selectedActionCommand =       actionCommandHandlers.Keys.SingleOrDefault(c=>c.Command.ToLower().Equals(inputCommand.ToLower()));
+            
             if (selectedActionCommand == null) 
                 return new InvalidInputResult();
 
-            return actionCommandHandlers[selectedActionCommand](argument);
+            return actionCommandHandlers[selectedActionCommand](inputArgument);
         }
 
-        public string ParseCommand(string userInput)
+        public string GetFirstArgumentToken(string userInput)
         {
             string[] userInputSplit = userInput.Split();
             if (userInputSplit.Length < 1) return string.Empty;
             return userInputSplit[0].Trim();
         }
-        public string ParseArgument(string userInput)
+        public string GetArgumentStringAfterFirstArgumentToken(string userInput)
         {
-            string command = ParseCommand(userInput);
+            string command = GetFirstArgumentToken(userInput);
             if (string.IsNullOrEmpty(command)) return string.Empty;
 
             return userInput.Substring(userInput.IndexOf(command) + command.Length).Trim();

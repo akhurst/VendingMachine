@@ -18,14 +18,14 @@ namespace VendingMachine.Test
         {
             machine = new SodaMachine(10);
             ui = new SodaMachineUi(machine);
-            ui.PerformAction(MainMenu.Commands.AdminMenu.Commands[0]);
+            ui.PerformAction(MainMenu.Commands.StockerMenu.Command);
         }
 
         [TestMethod]
         public void ShouldRenderViewInventory()
         {
             machine.Slots[2].ProductName = "Dr. Pepper";
-            string result = ui.PerformAction(AdminMenu.Commands.ViewInventory.Commands[0]).ToString();
+            string result = ui.PerformAction(StockerMenu.Commands.ViewInventory.Command).ToString();
             Assert.IsTrue(result.Contains("Dr. Pepper"));
         }
     }

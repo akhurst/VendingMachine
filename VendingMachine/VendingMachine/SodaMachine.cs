@@ -8,11 +8,14 @@ namespace VendingMachine
     public class SodaMachine
     {
         private readonly IList<Slot> slots;
+        private readonly int numberOfSlots;
+        public int NumberOfSlots { get { return this.numberOfSlots; } }
         public double CustomerBalance { get; private set; }
         public IList<Slot> Slots { get { return slots; } }
 
         public SodaMachine(int numSlots)
         {
+            this.numberOfSlots = numSlots;
             slots = new List<Slot>();
 
             for (int i = 0; i < numSlots; i++)
