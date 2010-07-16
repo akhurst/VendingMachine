@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using VendingMachine.Domain;
 using VendingMachine.Framework.Results;
 
 namespace VendingMachine.Framework
@@ -10,8 +9,6 @@ namespace VendingMachine.Framework
     {
         private readonly IList<ActionCommand> actionCommands =
             new List<ActionCommand>();
-
-        private readonly SodaMachine machine;
 
         private string header = string.Empty;
         public virtual string DisplayPrompt
@@ -43,20 +40,13 @@ namespace VendingMachine.Framework
             get { return actionCommands; }
         }
 
-        protected BaseMenu(SodaMachine machine)
+        protected BaseMenu()
         {
-            this.machine = machine;
         }
 
-        protected BaseMenu(SodaMachine machine, string header)
+        protected BaseMenu(string header)
         {
-            this.machine = machine;
             this.header = header;
-        }
-
-        protected SodaMachine Machine
-        {
-            get { return machine; }
         }
 
         public virtual ActionResult PerformAction(string userInput)

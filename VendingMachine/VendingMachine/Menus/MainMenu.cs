@@ -7,7 +7,7 @@ using VendingMachine.Framework.Exceptions;
 
 namespace VendingMachine.Menus
 {
-    public class MainMenu : BaseMenu
+    public class MainMenu : SodaMachineMenu
     {
         public MainMenu(SodaMachine machine)
             : base(machine, "Main Menu")

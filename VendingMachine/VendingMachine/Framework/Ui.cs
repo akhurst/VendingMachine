@@ -1,29 +1,21 @@
 ﻿using System.Collections.Generic;
-using VendingMachine.Domain;
 using VendingMachine.Framework.Results;
-using VendingMachine.Menus;
 
 namespace VendingMachine.Framework
 {
-    public class SodaMachineUi
+    public class Ui
     {
-        private readonly Stack<IController> controllers;
+        protected Stack<IController> Controllers{ get; private set;}
 
-        private SodaMachine machine;
-
-        public SodaMachineUi():this(new SodaMachine(10)){}
-
-        public SodaMachineUi(SodaMachine machine)
+        public Ui()
         {
-            this.machine = machine;
-            this.controllers = new Stack<IController>();
-            this.controllers.Push(new MainMenu(machine));
+            this.Controllers = new Stack<IController>();
             this.IsActive = true;
         }
 
         public bool IsActive { get; private set; }
 
-        public IController ActiveController { get { return controllers.Peek(); } }
+        public IController ActiveController { get { return Controllers.Peek(); } }
 
         public string DisplayPrompt
         {
@@ -39,15 +31,15 @@ namespace VendingMachine.Framework
 
             if (result.QuitController)
             {
-                controllers.Pop();
+                Controllers.Pop();
 
-                if(controllers.Count == 0)
+                if (Controllers.Count == 0)
                     this.IsActive = false;
             }
 
             if(result.NextController != null)
             {
-                controllers.Push(result.NextController);
+                Controllers.Push(result.NextController);
             }
 
             return result.Output;

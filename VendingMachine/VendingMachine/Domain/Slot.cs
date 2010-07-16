@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VendingMachine.Domain
+﻿namespace VendingMachine.Domain
 {
     public class Slot
     {

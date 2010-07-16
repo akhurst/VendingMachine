@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using VendingMachine.Framework.Exceptions;
 
 namespace VendingMachine.Domain

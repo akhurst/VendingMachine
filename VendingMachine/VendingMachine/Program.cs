@@ -12,11 +12,7 @@ namespace VendingMachine
         {
             SodaMachineUi ui = new SodaMachineUi();
 
-            while (ui.IsActive)
-            {
-                Console.WriteLine(ui.DisplayPrompt);
-                Console.WriteLine(ui.PerformAction(Console.ReadLine()));
-            }
+            new UiRunner().Run(ui);
         }
     }
 }

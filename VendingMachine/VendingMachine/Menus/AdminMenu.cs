@@ -5,7 +5,7 @@ using VendingMachine.Framework.Results;
 
 namespace VendingMachine.Menus
 {
-    public class AdminMenu : BaseMenu
+    public class AdminMenu : SodaMachineMenu
     {
         public AdminMenu(SodaMachine machine)
             : base(machine, "Stocker Menu")
