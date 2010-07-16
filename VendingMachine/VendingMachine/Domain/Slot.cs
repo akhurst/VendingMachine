@@ -1,4 +1,6 @@
-﻿namespace VendingMachine.Domain
+﻿using System;
+
+namespace VendingMachine.Domain
 {
     public class Slot
     {
@@ -18,5 +20,12 @@
             }
         }
 
+        public const double DefaultCost = .75;
+        public double Cost { get { return DefaultCost; } }
+
+        public bool IsEmpty
+        {
+            get{return Quantity == 0;}
+        }
     }
 }

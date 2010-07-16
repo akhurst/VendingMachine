@@ -44,6 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Framework\ActionCommand.cs" />
+    <Compile Include="Framework\Exceptions\SoldOutException.cs" />
+    <Compile Include="Framework\Exceptions\ValidationException.cs" />
     <Compile Include="Framework\Results\ActionResult.cs" />
     <Compile Include="Menus\AdminMenu.cs" />
     <Compile Include="Framework\BaseMenu.cs" />

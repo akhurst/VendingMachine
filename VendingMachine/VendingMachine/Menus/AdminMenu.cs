@@ -5,14 +5,15 @@ using VendingMachine.Framework.Results;
 
 namespace VendingMachine.Menus
 {
-    public class StockerMenu : BaseMenu
+    public class AdminMenu : BaseMenu
     {
-        public StockerMenu(SodaMachine machine)
+        public AdminMenu(SodaMachine machine)
             : base(machine, "Stocker Menu")
         {
             ActionCommands.Add(new ActionCommand(Commands.NameItems, HandleNameItem));
             ActionCommands.Add(new ActionCommand(Commands.AdjustQuantity, HandleAdjustQuantity));
             ActionCommands.Add(new ActionCommand(Commands.ViewInventory, HandlePrintInventory));
+            ActionCommands.Add(new ActionCommand(Commands.ViewMachineBalance, HandleViewBalance));
             ActionCommands.Add(ActionCommandFactory.CreateQuitToPreviousMenuCommand(QuitToPreviousMenu));
         }
 
@@ -30,6 +31,11 @@ namespace VendingMachine.Menus
                     .AppendLine();
             }
             return new TextResult(result.ToString());
+        }
+
+        private ActionResult HandleViewBalance(string arg)
+        {
+            return new TextResult(string.Format("The current machine balance is {0:c}", Machine.MachineBalance));
         }
 
         private ActionResult HandleAdjustQuantity(string arg)
@@ -95,6 +101,12 @@ namespace VendingMachine.Menus
             {
                 Command = "inv",
                 CommandDescription = "View Inventory"
+            };
+
+            public static readonly ActionCommandMetadata ViewMachineBalance = new ActionCommandMetadata
+            {
+                Command = "mbal",
+                CommandDescription = "View Machine Balance"
             };
 
         }

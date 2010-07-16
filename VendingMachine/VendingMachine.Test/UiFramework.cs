@@ -26,7 +26,7 @@ namespace VendingMachine.Test
         public void ShouldDisplaySubMenu()
         {
             ui.PerformAction(MainMenu.Commands.StockerMenu.Command);
-            Assert.IsInstanceOfType(ui.ActiveController, typeof(StockerMenu));
+            Assert.IsInstanceOfType(ui.ActiveController, typeof(AdminMenu));
         }
 
         [TestMethod]

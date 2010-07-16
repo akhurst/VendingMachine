@@ -31,14 +31,14 @@ namespace VendingMachine.Test
         [TestMethod]
         public void ShouldBeAbleToAddItems()
         {
-            ui.PerformAction(StockerMenu.Commands.AdjustQuantity.Command + " 1 1");
+            ui.PerformAction(AdminMenu.Commands.AdjustQuantity.Command + " 1 1");
             Assert.AreEqual(1, machine.Slots[0].Quantity);
         }
 
         [TestMethod]
         public void ShouldNotBeAbleToAddMoreThanTwentyItems()
         {
-            ui.PerformAction(StockerMenu.Commands.AdjustQuantity.Command + " 3 21");
+            ui.PerformAction(AdminMenu.Commands.AdjustQuantity.Command + " 3 21");
 
             Assert.AreEqual(0, machine.Slots[2].Quantity);
         }

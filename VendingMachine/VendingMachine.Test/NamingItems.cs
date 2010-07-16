@@ -24,7 +24,7 @@ namespace VendingMachine.Test
         [TestMethod]
         public void ShouldBeAbleToNameAnItem()
         {
-            ui.PerformAction(StockerMenu.Commands.NameItems.Command + " 1 Coca Cola");
+            ui.PerformAction(AdminMenu.Commands.NameItems.Command + " 1 Coca Cola");
             Assert.AreEqual("Coca Cola", machine.Slots[0].ProductName);
         }
 
@@ -32,7 +32,7 @@ namespace VendingMachine.Test
         public void ShouldHandleJunkItemNumber()
         {
             RecordCurrentNames();
-            string result = ui.PerformAction(StockerMenu.Commands.NameItems.Command + " blah");
+            string result = ui.PerformAction(AdminMenu.Commands.NameItems.Command + " blah");
             Assert.AreEqual(result, new InvalidMenuOptionResult().Output);
             AssertNoNamesHaveChanged();
         }
