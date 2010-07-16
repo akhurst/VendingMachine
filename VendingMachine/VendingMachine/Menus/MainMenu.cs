@@ -42,7 +42,8 @@ namespace VendingMachine.Menus
             try
             {
                 string productName = Machine.BuyItem(slotNumber);
-                return new TextResult("You received one " + productName);
+                double change = Machine.ReturnChange();
+                return new TextResult(string.Format("You received one {0} and {1:c} change", productName, change));
             }
             catch(ApplicationException e)
             {

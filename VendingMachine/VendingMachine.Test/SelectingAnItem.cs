@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VendingMachine.Domain;
 using VendingMachine.Framework;
 using VendingMachine.Framework.Exceptions;
@@ -59,7 +55,9 @@ namespace VendingMachine.Test
         {
             machine.DepositCustomerMoney(2);
             ui.PerformAction(MainMenu.Commands.ChooseItem.Command + " 1");
-            Assert.AreEqual(1.25, machine.CustomerBalance);
+            // In Receiving Change Test Fixture, there's a test to make sure remaining balance is
+            // returned after purchasing an item as per business rules
+            Assert.AreEqual(0, machine.CustomerBalance);
         }
 
         [TestMethod]

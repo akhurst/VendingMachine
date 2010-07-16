@@ -50,5 +50,15 @@ namespace VendingMachine.Test
 
             Assert.AreEqual(2.25,machine.MachineBalance);
         }
+
+        [TestMethod]
+        public void ShouldReceiveCorrectChangeAfterPurchase()
+        {
+            machine.Slots[0].Quantity = 10;
+            ui.PerformAction(MainMenu.Commands.AddMoney + " 1.25");
+            string result = ui.PerformAction(MainMenu.Commands.ChooseItem + " 1");
+
+            Assert.IsTrue(result.Contains("0.50"));
+        }
     }
 }
