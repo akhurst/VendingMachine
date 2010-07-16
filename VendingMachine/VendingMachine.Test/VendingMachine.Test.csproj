@@ -58,6 +58,10 @@
     <Compile Include="ViewingProductMenu.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\VendingMachine.Framework\VendingMachine.Framework.csproj">
+      <Project>{EC98D939-68E6-4B7C-A5DB-607E350176CC}</Project>
+      <Name>VendingMachine.Framework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VendingMachine\VendingMachine.csproj">
       <Project>{1EFE9DBB-FCFF-4750-A3FC-2C984E34E56A}</Project>
       <Name>VendingMachine</Name>
