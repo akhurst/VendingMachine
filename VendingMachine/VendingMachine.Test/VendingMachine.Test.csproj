@@ -45,17 +45,8 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddingMoney.cs" />
-    <Compile Include="AdjustingQuantity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReceivingChange.cs" />
-    <Compile Include="SelectingAnItem.cs" />
     <Compile Include="UiFramework.cs" />
-    <Compile Include="NamingItems.cs" />
-    <Compile Include="ViewingCustomerBalance.cs" />
-    <Compile Include="ViewingMachineBalance.cs" />
-    <Compile Include="ViewingMachineInventory.cs" />
-    <Compile Include="ViewingProductMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VendingMachine.Framework\VendingMachine.Framework.csproj">
