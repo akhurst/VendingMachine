@@ -7,11 +7,6 @@ namespace VendingMachine.Framework
 {
     public class UiRunner
     {
-        public void Run()
-        {
-            Run(new Ui());
-        }
-
         public void Run(Ui ui)
         {
             while (ui.IsActive)
