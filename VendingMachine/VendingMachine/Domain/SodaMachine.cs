@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using VendingMachine.Framework.Exceptions;
 
 namespace VendingMachine.Domain
@@ -14,6 +15,16 @@ namespace VendingMachine.Domain
 
             for (int i = 0; i < numSlots; i++)
                 slots.Add(new Slot());
+        }
+
+        public void SetName(int slotNumber, string productName)
+        {
+            Slots[slotNumber - 1].ProductName = productName;
+        }
+
+        public void SetQuantity(int slotNumber, int quantity)
+        {
+            Slots[slotNumber - 1].Quantity = quantity;
         }
     }
 }
