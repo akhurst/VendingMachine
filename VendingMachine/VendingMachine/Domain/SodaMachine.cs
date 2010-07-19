@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using VendingMachine.Framework.Exceptions;
 
 namespace VendingMachine.Domain
@@ -6,10 +8,7 @@ namespace VendingMachine.Domain
     public class SodaMachine
     {
         private readonly IList<Slot> slots;
-        public double CustomerBalance { get; private set; }
         public IList<Slot> Slots { get { return slots; } }
-
-        public double MachineBalance { get; private set; }
 
         public SodaMachine(int numSlots)
         {
@@ -19,45 +18,32 @@ namespace VendingMachine.Domain
                 slots.Add(new Slot());
         }
 
-        public void DepositCustomerMoney(double amountToAdd)
+        public void AdjustQuantity(int slotNumber, int newQuantity)
         {
-            if (amountToAdd > 0 && amountToAdd*100 % 1 == 0)
+            Slot selectedSlot = GetSlot(slotNumber);
+            selectedSlot.Quantity = newQuantity;
+        }
+
+        public void NameProduct(int slotNumber, string productNameInput)
+        {
+            Slot selectedSlot = GetSlot(slotNumber);
+            selectedSlot.ProductName = productNameInput;
+        }
+
+        private Slot GetSlot(int slotNumber)
+        {
+            return Slots[slotNumber - 1];
+        }
+
+        public string GetInventoryPrintout()
+        {
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < Slots.Count; i++)
             {
-                CustomerBalance += amountToAdd;
+                result.AppendFormat("{0,2} [Qty: {1,2}] {2}", i + 1, Slots[i].Quantity, Slots[i].ProductName)
+                    .AppendLine();
             }
-        }
-
-        public string BuyItem(int slotNumber)
-        {
-            Slot selectedSlot = Slots[slotNumber - 1];
-
-            ValidateCanPurchase(selectedSlot);
-
-            selectedSlot.Quantity--;
-                CustomerBalance -= selectedSlot.Cost;
-                MachineBalance += selectedSlot.Cost;
-                return selectedSlot.ProductName;
-        }
-
-        public double ReturnChange()
-        {
-            double change = CustomerBalance;
-            CustomerBalance = 0;
-            return change;
-        }
-
-        private void ValidateCanPurchase(Slot selectedSlot)
-        {
-            if (CustomerBalance < selectedSlot.Cost)
-                throw new ValidationException("You did not put enough money to purchase a " + selectedSlot.ProductName);
-
-            if (selectedSlot.IsEmpty)
-                throw new SoldOutException(selectedSlot.ProductName);
-        }
-
-        public void DepositMachineMoney(double money)
-        {
-            MachineBalance += money;
+            return result.ToString();
         }
     }
 }

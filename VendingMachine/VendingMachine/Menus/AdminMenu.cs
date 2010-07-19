@@ -13,7 +13,6 @@ namespace VendingMachine.Menus
             ActionCommands.Add(new ActionCommand(Commands.NameItems, HandleNameItem));
             ActionCommands.Add(new ActionCommand(Commands.AdjustQuantity, HandleAdjustQuantity));
             ActionCommands.Add(new ActionCommand(Commands.ViewInventory, HandlePrintInventory));
-            ActionCommands.Add(new ActionCommand(Commands.ViewMachineBalance, HandleViewBalance));
             ActionCommands.Add(ActionCommandFactory.CreateQuitToPreviousMenuCommand(QuitToPreviousMenu));
         }
 
@@ -24,19 +23,10 @@ namespace VendingMachine.Menus
 
         private ActionResult HandlePrintInventory(string arg)
         {
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < Machine.Slots.Count; i++)
-            {
-                result.AppendFormat("{0,2} [Qty: {1,2}] {2}", i + 1, Machine.Slots[i].Quantity, Machine.Slots[i].ProductName)
-                    .AppendLine();
-            }
-            return new TextResult(result.ToString());
+            return new TextResult(Machine.GetInventoryPrintout());
         }
 
-        private ActionResult HandleViewBalance(string arg)
-        {
-            return new TextResult(string.Format("The current machine balance is {0:c}", Machine.MachineBalance));
-        }
+        
 
         private ActionResult HandleAdjustQuantity(string arg)
         {
@@ -55,7 +45,8 @@ namespace VendingMachine.Menus
             if (!int.TryParse(quantityInput, out newQuantity))
                 return new InvalidMenuOptionResult();
 
-            Machine.Slots[slotNumber - 1].Quantity = newQuantity;
+            Machine.AdjustQuantity(slotNumber, newQuantity);
+
             return new TextResult(string.Format("Slot {0}'s new quantity is {1}", slotNumber, newQuantity));
         }
 
@@ -75,24 +66,23 @@ namespace VendingMachine.Menus
             if (string.IsNullOrEmpty(productNameInput))
                 return new InvalidMenuOptionResult();
 
-            Machine.Slots[slotNumber - 1].ProductName = productNameInput;
+            Machine.NameProduct(slotNumber, productNameInput);
 
             return new TextResult(string.Format("Slot {0}'s new name is {1}", slotNumberInput, productNameInput));
         }
 
         public static class Commands
         {
-
             public static readonly ActionCommandMetadata NameItems = new ActionCommandMetadata
             {
-                Command = "set",
+                Command = "setname",
                 CommandDescription = "Set Product Name",
                 ArgumentDescription = "<slot #> <product name>"
             };
 
             public static readonly ActionCommandMetadata AdjustQuantity = new ActionCommandMetadata
             {
-                Command = "qty",
+                Command = "setqty",
                 CommandDescription = "Adjust Product Quantity",
                 ArgumentDescription = "<slot #> <quantity>"
             };
@@ -102,13 +92,6 @@ namespace VendingMachine.Menus
                 Command = "inv",
                 CommandDescription = "View Inventory"
             };
-
-            public static readonly ActionCommandMetadata ViewMachineBalance = new ActionCommandMetadata
-            {
-                Command = "mbal",
-                CommandDescription = "View Machine Balance"
-            };
-
         }
     }
 }

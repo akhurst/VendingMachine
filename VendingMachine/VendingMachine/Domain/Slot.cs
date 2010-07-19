@@ -17,13 +17,5 @@
                 }
             }
         }
-
-        public const double DefaultCost = .75;
-        public double Cost { get { return DefaultCost; } }
-
-        public bool IsEmpty
-        {
-            get{return Quantity == 0;}
-        }
     }
 }

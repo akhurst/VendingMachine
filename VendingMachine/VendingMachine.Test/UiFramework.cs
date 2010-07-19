@@ -25,14 +25,14 @@ namespace VendingMachine.Test
         [TestMethod]
         public void ShouldDisplaySubMenu()
         {
-            ui.PerformAction(MainMenu.Commands.StockerMenu.Command);
+            ui.PerformAction(MainMenu.Commands.AdminMenu.Command);
             Assert.IsInstanceOfType(ui.ActiveController, typeof(AdminMenu));
         }
 
         [TestMethod]
         public void ShouldGoBackToMainMenuAfterQuittingSubMenu()
         {
-            ui.PerformAction(MainMenu.Commands.StockerMenu.Command);
+            ui.PerformAction(MainMenu.Commands.AdminMenu.Command);
             ui.PerformAction(ActionCommandFactory.QuitToPreviousMenuMetadata.Command);
 
             Assert.IsInstanceOfType(ui.ActiveController, typeof(MainMenu));
@@ -47,7 +47,7 @@ namespace VendingMachine.Test
         [TestMethod]
         public void ShouldGetFeedbackWhenEnteringAnInvalidOptionOnSubMenu()
         {
-            ui.PerformAction(MainMenu.Commands.StockerMenu.Command);
+            ui.PerformAction(MainMenu.Commands.AdminMenu.Command);
             AssertGotInvalidOptionFeedback();
         }
 

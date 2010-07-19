@@ -3,7 +3,7 @@ using VendingMachine.Framework.Results;
 
 namespace VendingMachine.Framework
 {
-    public class Ui
+    public abstract class Ui
     {
         protected Stack<IController> Controllers{ get; private set;}
 
