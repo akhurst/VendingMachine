@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace VendingMachine.Test
@@ -17,32 +14,30 @@ namespace VendingMachine.Test
         {
             machine = new SodaMachine(10);
             ui = new SodaMachineUi(machine);
-            ui.PerformAction(MainMenu.Commands.AdminMenu);
-            ui.PerformAction(AdminMenu.Commands.NameItems);
+            ui.PerformAction(MainMenu.Commands.StockerMenu.Command);
         }
 
         [TestMethod]
         public void ShouldBeAbleToNameAnItem()
         {
-            ui.PerformAction("1 Coca Cola");
-            Assert.AreEqual("Coca Cola",machine.Slots[0].ProductName);
+            ui.PerformAction(StockerMenu.Commands.NameItems.Command + " 1 Coca Cola");
+            Assert.AreEqual("Coca Cola", machine.Slots[0].ProductName);
         }
 
         [TestMethod]
         public void ShouldHandleJunkItemNumber()
         {
             RecordCurrentNames();
-            string result = ui.PerformAction("blah");
-            Assert.AreEqual(NameItemMenu.InvalidSlotString,result);
-            Assert.AreEqual(string.Format(NameItemMenu.MenuFormatString),ui.DisplayPrompt);
+            string result = ui.PerformAction(StockerMenu.Commands.NameItems.Command + " blah");
+            Assert.AreEqual(result, new InvalidMenuOptionResult().Output);
             AssertNoNamesHaveChanged();
         }
 
         private void AssertNoNamesHaveChanged()
         {
-            for(int i =0;i<10;i++)
+            for (int i = 0; i < 10; i++)
             {
-                Assert.AreEqual(lastRecordedNames[i],machine.Slots[i].ProductName);
+                Assert.AreEqual(lastRecordedNames[i], machine.Slots[i].ProductName);
             }
         }
 

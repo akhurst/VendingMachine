@@ -1,52 +1,99 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
 namespace VendingMachine
 {
-    public class AdminMenu : BaseMenu
+    public class StockerMenu : BaseMenu
     {
-        public const string MenuFormatString = "Admin Menu\n1: Set Product Name\n2: Adjust Product Quantity\nQ: Quit";
-
-        public AdminMenu(SodaMachine machine) : base(machine)
+        public StockerMenu(SodaMachine machine)
+            : base(machine, "Stocker Menu")
         {
-            CommandsToHandlers.Add(Commands.NameItems,NavigateToNameItems);
-            CommandsToHandlers.Add(Commands.AdjustQuantity,NavigateToAdjustQuantity);
-            CommandsToHandlers.Add(Commands.ViewInventory, PrintInventory);
+            ActionCommands.Add(new ActionCommand(Commands.NameItems, HandleNameItem));
+            ActionCommands.Add(new ActionCommand(Commands.AdjustQuantity, HandleAdjustQuantity));
+            ActionCommands.Add(new ActionCommand(Commands.ViewInventory, HandlePrintInventory));
+            ActionCommands.Add(ActionCommandFactory.CreateQuitToPreviousMenuCommand(QuitToPreviousMenu));
         }
 
-        private ActionResult PrintInventory(string arg)
+        private ActionResult QuitToPreviousMenu(string arg)
+        {
+            return new QuitMenuResult();
+        }
+
+        private ActionResult HandlePrintInventory(string arg)
         {
             StringBuilder result = new StringBuilder();
             for (int i = 0; i < Machine.Slots.Count; i++)
             {
-                result.AppendFormat("{0} [Qty: {1}] {2}", i + 1, Machine.Slots[i].Quantity, Machine.Slots[i].ProductName)
+                result.AppendFormat("{0,2} [Qty: {1,2}] {2}", i + 1, Machine.Slots[i].Quantity, Machine.Slots[i].ProductName)
                     .AppendLine();
             }
-            return new ActionResult(result.ToString());
+            return new TextResult(result.ToString());
         }
 
-        private ActionResult NavigateToAdjustQuantity(string arg)
+        private ActionResult HandleAdjustQuantity(string arg)
         {
-            return new ActionResult(new AdjustQuantityMenu(Machine));
+            string slotNumberInput = GetFirstArgumentToken(arg);
+            string quantityInput = GetArgumentStringAfterFirstArgumentToken(arg);
+            int slotNumber;
+
+            if (!int.TryParse(slotNumberInput, out slotNumber))
+                return new InvalidMenuOptionResult();
+
+            if (slotNumber < 1 || slotNumber > 10)
+                return new InvalidMenuOptionResult();
+
+            int newQuantity;
+
+            if (!int.TryParse(quantityInput, out newQuantity))
+                return new InvalidMenuOptionResult();
+
+            Machine.Slots[slotNumber - 1].Quantity = newQuantity;
+            return new TextResult(string.Format("Slot {0}'s new quantity is {1}", slotNumber, newQuantity));
         }
 
-        private ActionResult NavigateToNameItems(string arg)
+        private ActionResult HandleNameItem(string arg)
         {
-            return new ActionResult(new NameItemMenu(Machine));
-        }
+            string slotNumberInput = GetFirstArgumentToken(arg);
+            string productNameInput = GetArgumentStringAfterFirstArgumentToken(arg);
 
-        public override string DisplayPrompt
-        {
-            get { return MenuFormatString; }
+            int slotNumber;
+
+            if (!int.TryParse(slotNumberInput, out slotNumber))
+                return new InvalidMenuOptionResult();
+
+            if (slotNumber < 1 || slotNumber > 10)
+                return new InvalidMenuOptionResult();
+
+            if (string.IsNullOrEmpty(productNameInput))
+                return new InvalidMenuOptionResult();
+
+            Machine.Slots[slotNumber - 1].ProductName = productNameInput;
+
+            return new TextResult(string.Format("Slot {0}'s new name is {1}", slotNumberInput, productNameInput));
         }
 
         public static class Commands
         {
-            public const string NameItems = "1";
-            public const string AdjustQuantity = "2";
-            public const string ViewInventory = "3";
+
+            public static readonly ActionCommandMetadata NameItems = new ActionCommandMetadata
+            {
+                Command = "set",
+                CommandDescription = "Set Product Name",
+                ArgumentDescription = "<slot #> <product name>"
+            };
+
+            public static readonly ActionCommandMetadata AdjustQuantity = new ActionCommandMetadata
+            {
+                Command = "qty",
+                CommandDescription = "Adjust Product Quantity",
+                ArgumentDescription = "<slot #> <quantity>"
+            };
+
+            public static readonly ActionCommandMetadata ViewInventory = new ActionCommandMetadata
+            {
+                Command = "inv",
+                CommandDescription = "View Inventory"
+            };
+
         }
     }
 }

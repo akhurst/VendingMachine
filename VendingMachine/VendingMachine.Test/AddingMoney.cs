@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace VendingMachine.Test
 {
@@ -39,7 +35,7 @@ namespace VendingMachine.Test
         [TestMethod]
         public void ShouldIgnoreNoAmount()
         {
-            ui.PerformAction(MainMenu.Commands.AddMoney);
+            ui.PerformAction(MainMenu.Commands.AddMoney.Command);
 
             AssertIsAtMainMenu();
             Assert.AreEqual(0, machine.CustomerBalance);
@@ -63,8 +59,7 @@ namespace VendingMachine.Test
 
         private void AssertIsAtMainMenu()
         {
-            string expectedPrompt = string.Format(MainMenu.MainMenuFormat);
-            Assert.AreEqual(expectedPrompt, ui.DisplayPrompt);
+            Assert.IsInstanceOfType(ui.ActiveController, typeof(MainMenu));
         }
     }
 }

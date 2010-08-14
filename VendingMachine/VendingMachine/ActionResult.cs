@@ -5,16 +5,18 @@ using System.Text;
 
 namespace VendingMachine
 {
-    public class ActionResult
+    public abstract class ActionResult
     {
-        public ActionResult() : this(string.Empty, null){}
-        public ActionResult(string output) : this(output, null){}
-        public ActionResult(IController nextController) : this(string.Empty, nextController){}
+        protected ActionResult() : this(string.Empty, null, false){}
+        protected ActionResult(string output) : this(output, null, false){}
+        protected ActionResult(IController nextController) : this(string.Empty, nextController, false){}
+        protected ActionResult(bool quitController) : this(string.Empty, null, quitController){}
 
-        public ActionResult(string output, IController nextController)
+        protected ActionResult(string output, IController nextController, bool quitController)
         {
             this.Output = output;
             this.NextController = nextController;
+            this.QuitController = quitController;
         }
 
         public IController NextController { get; private set; }

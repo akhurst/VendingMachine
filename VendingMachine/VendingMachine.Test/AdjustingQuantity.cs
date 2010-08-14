@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace VendingMachine.Test
 {
@@ -17,15 +13,7 @@ namespace VendingMachine.Test
         {
             machine = new SodaMachine(10);
             ui = new SodaMachineUi(machine);
-            ui.PerformAction(MainMenu.Commands.AdminMenu);
-            ui.PerformAction(AdminMenu.Commands.AdjustQuantity);
-        }
-
-        [TestMethod]
-        public void ShouldLoadAdjustQuantityMenu()
-        {
-            string expectedMenu = string.Format(AdjustQuantityMenu.MenuFormatString,Slot.MaximumQuantity);
-            Assert.AreEqual(expectedMenu,ui.DisplayPrompt);
+            ui.PerformAction(MainMenu.Commands.StockerMenu.Command);
         }
 
         [TestMethod]
@@ -33,22 +21,23 @@ namespace VendingMachine.Test
         {
             foreach (var slot in machine.Slots)
             {
-                Assert.AreEqual(0,slot.Quantity);
+                Assert.AreEqual(0, slot.Quantity);
             }
         }
 
         [TestMethod]
         public void ShouldBeAbleToAddItems()
         {
-            ui.PerformAction("1 1");
+            ui.PerformAction(StockerMenu.Commands.AdjustQuantity.Command + " 1 1");
             Assert.AreEqual(1, machine.Slots[0].Quantity);
         }
 
         [TestMethod]
         public void ShouldNotBeAbleToAddMoreThanTwentyItems()
         {
-            string result = ui.PerformAction("3 21");
-            Assert.AreEqual(0,machine.Slots[2].Quantity);
+            ui.PerformAction(StockerMenu.Commands.AdjustQuantity.Command + " 3 21");
+
+            Assert.AreEqual(0, machine.Slots[2].Quantity);
         }
     }
 }

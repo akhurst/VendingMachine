@@ -1,26 +1,57 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+using System.Text;
 
 namespace VendingMachine
 {
     public abstract class BaseMenu : IController
     {
-        private readonly IDictionary<string, Func<string, ActionResult>> commandsToHandlers =
-            new Dictionary<string, Func<string, ActionResult>>();
+        private readonly IList<ActionCommand> actionCommands =
+            new List<ActionCommand>();
 
         private readonly SodaMachine machine;
+
+        private string header = string.Empty;
+        public virtual string DisplayPrompt
+        {
+            get
+            {
+                StringBuilder promptBuilder = new StringBuilder();
+                promptBuilder.AppendLine(header).AppendLine();
+                foreach (ActionCommand actionCommand in actionCommands)
+                {
+                    promptBuilder.AppendLine(FormatActionCommand(actionCommand));
+                }
+                return promptBuilder.ToString();
+            }
+        }
+
+        public string FormatActionCommand(ActionCommand actionCommand)
+        {
+            string formattedActionCommand = string.Format("{0}:\t{1}", actionCommand.Command, actionCommand.CommandDescription);
+            if (!string.IsNullOrEmpty(actionCommand.ArgumentDescription))
+            {
+                formattedActionCommand += string.Format("\r\n\t\t{0}", actionCommand.ArgumentDescription);
+            }
+            return formattedActionCommand;
+        }
+
+        protected IList<ActionCommand> ActionCommands
+        {
+            get { return actionCommands; }
+        }
 
         protected BaseMenu(SodaMachine machine)
         {
             this.machine = machine;
         }
 
-        protected IDictionary<string, Func<string, ActionResult>> CommandsToHandlers
+        protected BaseMenu(SodaMachine machine, string header)
         {
-            get { return commandsToHandlers; }
+            this.machine = machine;
+            this.header = header;
         }
-
-        public abstract string DisplayPrompt { get; }
 
         protected SodaMachine Machine
         {
@@ -30,42 +61,36 @@ namespace VendingMachine
         public virtual ActionResult PerformAction(string userInput)
         {
             if (string.IsNullOrEmpty(userInput))
-                return new ActionResult(CommonMessages.InvalidOptionMessage);
+                return new InvalidMenuOptionResult();
 
             string[] userInputSplit = userInput.Split();
 
-            if(userInputSplit.Length == 0)
-                return new ActionResult(CommonMessages.InvalidOptionMessage);
+            if (userInputSplit.Length == 0)
+                return new InvalidMenuOptionResult();
 
-            string action = userInputSplit[0].Trim();
-            string argument = userInput.Substring(userInput.IndexOf(action) + action.Length).Trim();
+            string inputCommand = GetFirstArgumentToken(userInput);
+            string inputArgument = GetArgumentStringAfterFirstArgumentToken(userInput);
 
-            switch (action)
-            {
-                case "q":
-                case "Q":
-                    return Quit();
-                default:
-                    return PerformMenuAction(action, argument);
-            }
+            ActionCommand selectedActionCommand = actionCommands.SingleOrDefault(c => c.Command.ToLower().Equals(inputCommand.ToLower()));
+
+            if (selectedActionCommand == null)
+                return new InvalidMenuOptionResult();
+
+            return selectedActionCommand.CommandHandler(inputArgument);
         }
 
-        protected virtual ActionResult InvalidInput()
+        public string GetFirstArgumentToken(string userInput)
         {
-            return new ActionResult(CommonMessages.InvalidOptionMessage);
+            string[] userInputSplit = userInput.Split();
+            if (userInputSplit.Length < 1) return string.Empty;
+            return userInputSplit[0].Trim();
         }
-
-        protected virtual ActionResult PerformMenuAction(string action, string argument)
+        public string GetArgumentStringAfterFirstArgumentToken(string userInput)
         {
-            if (!CommandsToHandlers.ContainsKey(action))
-                return InvalidInput();
+            string command = GetFirstArgumentToken(userInput);
+            if (string.IsNullOrEmpty(command)) return string.Empty;
 
-            return CommandsToHandlers[action](argument);
-        }
-
-        protected virtual ActionResult Quit()
-        {
-            return new ActionResult {QuitController = true};
+            return userInput.Substring(userInput.IndexOf(command) + command.Length).Trim();
         }
     }
 }

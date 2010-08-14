@@ -23,17 +23,19 @@ namespace VendingMachine
 
         public bool IsActive { get; private set; }
 
+        public IController ActiveController { get { return controllers.Peek(); } }
+
         public string DisplayPrompt
         {
             get
             {
-                return controllers.Peek().DisplayPrompt;
+                return ActiveController.DisplayPrompt;
             }
         }
 
         public string PerformAction(string userInput)
         {
-            ActionResult result = controllers.Peek().PerformAction(userInput);
+            ActionResult result = ActiveController.PerformAction(userInput);
 
             if (result.QuitController)
             {

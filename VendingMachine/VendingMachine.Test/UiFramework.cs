@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace VendingMachine.Test
 {
@@ -20,36 +16,23 @@ namespace VendingMachine.Test
         [TestMethod]
         public void ShouldStartWithMainMenu()
         {
-            AssertIsAtMainMenu();
-        }
-
-        [TestMethod]
-        public void ShouldBeActiveWhenStarted()
-        {
-            Assert.IsTrue(ui.IsActive);
-        }
-
-        [TestMethod]
-        public void ShouldBeInactiveAfterQuit()
-        {
-            ui.PerformAction("Q");
-            Assert.IsFalse(ui.IsActive);
+            Assert.IsInstanceOfType(ui.ActiveController, typeof(MainMenu));
         }
 
         [TestMethod]
         public void ShouldDisplaySubMenu()
         {
-            ui.PerformAction(MainMenu.Commands.AdminMenu);
-            string expectedPrompt = string.Format(AdminMenu.MenuFormatString);
-            Assert.AreEqual(expectedPrompt, ui.DisplayPrompt);
+            ui.PerformAction(MainMenu.Commands.StockerMenu.Command);
+            Assert.IsInstanceOfType(ui.ActiveController, typeof(StockerMenu));
         }
 
         [TestMethod]
         public void ShouldGoBackToMainMenuAfterQuittingSubMenu()
         {
-            ui.PerformAction(MainMenu.Commands.AdminMenu);
-            ui.PerformAction("Q");
-            AssertIsAtMainMenu();
+            ui.PerformAction(MainMenu.Commands.StockerMenu.Command);
+            ui.PerformAction(ActionCommandFactory.QuitToPreviousMenuMetadata.Command);
+
+            Assert.IsInstanceOfType(ui.ActiveController, typeof(MainMenu));
         }
 
         [TestMethod]
@@ -61,20 +44,14 @@ namespace VendingMachine.Test
         [TestMethod]
         public void ShouldGetFeedbackWhenEnteringAnInvalidOptionOnSubMenu()
         {
-            ui.PerformAction(MainMenu.Commands.AdminMenu);
+            ui.PerformAction(MainMenu.Commands.StockerMenu.Command);
             AssertGotInvalidOptionFeedback();
         }
 
         private void AssertGotInvalidOptionFeedback()
         {
             string result = ui.PerformAction("junk");
-            Assert.AreEqual(CommonMessages.InvalidOptionMessage, result);
-        }
-
-        private void AssertIsAtMainMenu()
-        {
-            string expectedPrompt = string.Format(MainMenu.MainMenuFormat);
-            Assert.AreEqual(expectedPrompt, ui.DisplayPrompt);
+            Assert.AreEqual(result, new InvalidMenuOptionResult().Output);
         }
     }
 }
