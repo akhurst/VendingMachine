@@ -1,4 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VendingMachine.Domain;
+using VendingMachine.Framework;
+using VendingMachine.Menus;
 
 namespace VendingMachine.Test
 {

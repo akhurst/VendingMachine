@@ -43,22 +43,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionCommand.cs" />
-    <Compile Include="ActionResult.cs" />
-    <Compile Include="AdminMenu.cs" />
-    <Compile Include="BaseMenu.cs" />
-    <Compile Include="IController.cs" />
-    <Compile Include="InvalidArgumentResult.cs" />
-    <Compile Include="InvalidMenuOptionResult.cs" />
-    <Compile Include="MainMenu.cs" />
-    <Compile Include="NavigateResult.cs" />
-    <Compile Include="QuitMenuResult.cs" />
-    <Compile Include="SodaMachine.cs" />
+    <Compile Include="Framework\ActionCommand.cs" />
+    <Compile Include="Framework\Results\ActionResult.cs" />
+    <Compile Include="Menus\AdminMenu.cs" />
+    <Compile Include="Framework\BaseMenu.cs" />
+    <Compile Include="Framework\IController.cs" />
+    <Compile Include="Framework\Results\InvalidArgumentResult.cs" />
+    <Compile Include="Framework\Results\InvalidMenuOptionResult.cs" />
+    <Compile Include="Menus\MainMenu.cs" />
+    <Compile Include="Framework\Results\NavigateResult.cs" />
+    <Compile Include="Framework\Results\QuitMenuResult.cs" />
+    <Compile Include="Domain\SodaMachine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Slot.cs" />
-    <Compile Include="SodaMachineUi.cs" />
-    <Compile Include="TextResult.cs" />
+    <Compile Include="Domain\Slot.cs" />
+    <Compile Include="Framework\SodaMachineUi.cs" />
+    <Compile Include="Framework\Results\TextResult.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
