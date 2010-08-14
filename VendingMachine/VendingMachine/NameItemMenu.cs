@@ -33,9 +33,8 @@ namespace VendingMachine
                 return new ActionResult(InvalidNameString);
 
             Machine.Slots[slotNumber - 1].ProductName = argument;            
-            this.IsActive = false;
 
-            return new ActionResult(string.Format("Slot {0}'s new name is {1}",action,argument));
+            return new ActionResult(string.Format("Slot {0}'s new name is {1}",action,argument)){QuitController = true};
         }
     }
 }

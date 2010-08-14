@@ -19,5 +19,6 @@ namespace VendingMachine
 
         public IController NextController { get; private set; }
         public string Output { get; private set; }
+        public bool QuitController { get; set; }
     }
 }

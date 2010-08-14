@@ -35,8 +35,7 @@ namespace VendingMachine
                 return new ActionResult();
 
             Machine.Slots[slotNumber - 1].Quantity = newQuantity;
-            this.IsActive = false;
-            return new ActionResult(string.Format("Slot {0}'s new quantity is {1}", action, newQuantity));
+            return new ActionResult(string.Format("Slot {0}'s new quantity is {1}", action, newQuantity)){QuitController = true};
         }
 
     }

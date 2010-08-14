@@ -35,7 +35,7 @@ namespace VendingMachine
         {
             ActionResult result = controllers.Peek().PerformAction(userInput);
 
-            if (!controllers.Peek().IsActive)
+            if (result.QuitController)
             {
                 controllers.Pop();
 

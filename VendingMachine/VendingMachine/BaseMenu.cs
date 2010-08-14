@@ -13,7 +13,6 @@ namespace VendingMachine
         protected BaseMenu(SodaMachine machine)
         {
             this.machine = machine;
-            IsActive = true;
         }
 
         protected IDictionary<string, Func<string, ActionResult>> CommandsToHandlers
@@ -22,7 +21,6 @@ namespace VendingMachine
         }
 
         public abstract string DisplayPrompt { get; }
-        public bool IsActive { get; protected set; }
 
         protected SodaMachine Machine
         {
@@ -67,8 +65,7 @@ namespace VendingMachine
 
         protected virtual ActionResult Quit()
         {
-            IsActive = false;
-            return new ActionResult();
+            return new ActionResult {QuitController = true};
         }
     }
 }

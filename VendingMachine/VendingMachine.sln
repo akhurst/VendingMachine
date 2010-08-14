@@ -6,11 +6,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VendingMachine.Test", "VendingMachine.Test\VendingMachine.Test.csproj", "{17868595-BF8E-47F9-9045-08638A18D770}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{98C1D8D1-D708-41E3-9A0B-E132D466AC34}"
-	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-		VendingMachine.vsmdi = VendingMachine.vsmdi
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
